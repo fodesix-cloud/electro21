@@ -249,21 +249,21 @@ Le dossier est statique : il se dépose tel quel sur n'importe quel hébergeur. 
 
 ### Comment c'est relié aujourd'hui
 
-Le projet Vercel `electro21` a été créé et déployé **depuis ce poste**, avec le CLI :
+Le projet Vercel `electro21` est branché sur le dépôt GitHub, branche `main` : **un `git push` publie en production**, sans autre geste. C'est ce qu'a montré l'alias `electro21-git-main-fode1.vercel.app` apparu sur les déploiements créés à la seconde de chaque poussée.
 
 ```bash
 cd /Users/fode/Projets/electro21
-vercel --prod          # publie le contenu du dossier et bascule l'alias electro21.vercel.app dessus
+git add -A && git commit -m "…" && git push     # suffit à publier
 ```
 
-Le dossier `.vercel/` (ignoré par git) porte l'identifiant du projet et de l'organisation. Conséquence à connaître : **le dépôt GitHub n'est pas branché à Vercel**, donc un `git push` seul ne redéploie rien. Après une correction, il faut pousser *et* publier :
+Deux conséquences : le site en ligne reflète le **dernier commit poussé**, jamais les modifications restées sur le disque ; et `js/data.js` doit donc être mis à jour ici, par le back-office puis un commit, pour que le changement paraisse.
+
+Le CLI reste utile pour publier sans passer par GitHub, depuis le dossier — la commande `vercel --prod` envoie le contenu local, commits non poussés compris, et déplace l'alias `electro21.vercel.app` sur ce déploiement. Le dossier `.vercel/` (ignoré par git) porte l'identifiant du projet et de l'organisation.
 
 ```bash
-git add -A && git commit -m "…" && git push
-vercel --prod
+vercel ls electro21        # historique des déploiements
+vercel inspect <url>       # état, alias et durée d'un déploiement
 ```
-
-Pour que chaque `git push` publie tout seul, relier le dépôt dans l'interface : **Add New… → Project → Import** de `fodesix-cloud/electro21`, framework « Other », *Root Directory*, *Build Command* et *Output Directory* laissés vides — il n'y a rien à construire.
 
 ### Ce qui a été réglé à la mise en ligne
 
