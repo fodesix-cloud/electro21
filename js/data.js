@@ -17,8 +17,13 @@ window.ELECTRO21 = {
     description:
       "Boutique de vente de téléphones portables, d'ordinateurs, de matériel informatique et d'accessoires, à Bamako.",
     ville: 'Bamako, Mali',
-    adresse: 'ACI 2000, Bamako',
-    quartier: 'ACI 2000',
+    /* Les deux points de vente de la boutique. `adresse` est écrite telle que la
+       boutique la donne ; `quartier` sert au lien Google Maps et aux lignes courtes.
+       Les horaires, les numéros et WhatsApp sont communs aux deux boutiques. */
+    boutiques: [
+      { id: 'aci', nom: 'Boutique ACI 2000', adresse: 'ACI 2000, Bamako', quartier: 'ACI 2000' },
+      { id: 'coura', nom: 'Boutique Bamako Coura', adresse: 'Bamako Coura, Bamako', quartier: 'Bamako Coura' },
+    ],
     /* Adresse publique du site, sans slash final. Elle sert aux codes QR (fiche,
        vitrine, planche d'étiquettes). Site publié le 26 octobre 2026 sur Vercel ;
        si le domaine change, reprendre cette valeur et les balises og: de index.html. */
@@ -758,7 +763,8 @@ window.ELECTRO21 = {
         id: 'adresse',
         question: 'Où est la boutique ?',
         mots: ['ou', 'où', 'adresse', 'localisation', 'situé', 'situé', 'carte', 'map', 'venir', 'magasin', 'boutique'],
-        reponse: 'La boutique est à ACI 2000, Bamako. Horaires : lundi – vendredi 9h – 19h, samedi 9h – 18h, dimanche sur rendez-vous.',
+        reponse:
+          'Deux boutiques à Bamako : ACI 2000 et Bamako Coura. Horaires : lundi – vendredi 9 h 00 – 19 h 00, samedi 9 h 00 – 18 h 00, dimanche sur rendez-vous.',
         action: 'contact',
       },
       {

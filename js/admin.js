@@ -233,8 +233,6 @@
     CH.texte('signature', 'Signature'),
     CH.long('description', 'Description affichée en accueil'),
     CH.texte('ville', 'Ville'),
-    CH.texte('quartier', 'Quartier'),
-    CH.texte('adresse', 'Adresse'),
     CH.texte('urlSite', 'Adresse publiée du site', 'Sans slash final, par exemple https://electro21.example — c’est elle que scannent les codes QR.'),
     CH.liste('tel', 'Numéros de téléphone', 'Un numéro par ligne, tel qu’il doit s’afficher.'),
     CH.texte('whatsapp', 'WhatsApp', 'Chiffres seulement, indicatif inclus, sans + ni espace : 22377777700.'),
@@ -249,6 +247,15 @@
   ];
 
   const SCHEMA_CATEGORIE = [CH.texte('id', 'Identifiant (rayon)', 'Sert de clé aux produits : ne pas changer sans réaffecter les produits.'), CH.texte('label', 'Nom affiché'), CH.choix('visuel', 'Dessin', VISUELS)];
+
+  /* Un point de vente. La boutique peut en déclarer plusieurs : le site les liste
+     tous, avec un lien Maps chacun. Les horaires et les numéros restent communs. */
+  const SCHEMA_POINT = [
+    CH.texte('id', 'Identifiant', 'Court et sans espace : aci, coura…'),
+    CH.texte('nom', 'Nom affiché', 'Par exemple Boutique ACI 2000.'),
+    CH.texte('adresse', 'Adresse écrite', 'Telle que la boutique la donne : ACI 2000, Bamako.'),
+    CH.texte('quartier', 'Quartier', 'Sert au lien Google Maps et aux lignes courtes.'),
+  ];
 
   const SCHEMA_PRODUIT = [
     CH.texte('id', 'Identifiant'),
@@ -288,6 +295,9 @@
   const RUBRIQUES = {
     boutique: () =>
       bloc('boutique', SCHEMA_BOUTIQUE, 'Coordonnées de la boutique') +
+      '<h3>Points de vente</h3>' +
+      '<p class="chapeau">Une ligne par boutique ouverte au public. Les horaires, les numéros et WhatsApp restent communs à tous les points de vente.</p>' +
+      collection('boutique.boutiques', SCHEMA_POINT, 'Boutique', (x) => x.nom || x.adresse || 'nouvelle boutique') +
       '<h3>Horaires</h3>' +
       collection('boutique.horaires', [CH.texte('jours', 'Jours'), CH.texte('heures', 'Heures')], 'Ligne', (x) => x.jours || 'Horaires'),
     categories: () =>
@@ -563,6 +573,7 @@
     if (chemin === 'partenaires') return { nom: '', role: '', type: 'service', lien: null };
     if (chemin === 'assistant.questions') return { id: '', question: '', mots: [], reponse: '', action: null };
     if (chemin === 'boutique.horaires') return { jours: '', heures: '' };
+    if (chemin === 'boutique.boutiques') return { id: '', nom: '', adresse: '', quartier: '' };
     if (chemin === 'produits.0.specs') return { label: '', valeur: '' };
     if (/\.specs$/.test(chemin)) return { label: '', valeur: '' };
     return {};
@@ -628,6 +639,8 @@
     if (!(brouillon.assistant || {}).questions || !brouillon.assistant.questions.length) alertes.push('Assistant sans question connue : il renverra toujours vers WhatsApp.');
     if (brouillon.boutique.whatsapp && /[^0-9]/.test(String(brouillon.boutique.whatsapp))) alertes.push('Numéro WhatsApp : n’indiquer que des chiffres, indicatif inclus, sans + ni espace.');
     if (!brouillon.boutique.urlSite) alertes.push('Adresse publiée du site non renseignée : les codes QR resteront des liens locaux.');
+    if (!(brouillon.boutique.boutiques || []).length && !brouillon.boutique.adresse)
+      alertes.push('Aucun point de vente : le site n’aurait aucune adresse à afficher dans la page Contact.');
     (brouillon.realisations || []).forEach((r) => {
       if (r.lien && !(brouillon.produits || []).some((p) => p.id === r.lien || p.slug === r.lien || slugDe(p.nom) === r.lien))
         alertes.push('Réalisation « ' + (r.titre || r.id) + ' » : le produit lié « ' + r.lien + ' » n’existe pas dans le catalogue.');

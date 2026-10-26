@@ -60,6 +60,38 @@
   }
   const produit = (id) => PRODUITS.find((p) => p.id === id || p.slug === id);
 
+  /* -------------------------------------------------------------- boutiques */
+
+  /* La boutique peut avoir plusieurs points de vente : `boutique.boutiques` dans
+     data.js. Les anciens champs singularisés (`adresse`, `quartier`) restent lus,
+     pour qu'un fichier de données non mis à jour continue de s'afficher. */
+  function boutiques() {
+    if (Array.isArray(B.boutiques) && B.boutiques.length) return B.boutiques;
+    if (B.adresse) return [{ id: 'unique', nom: B.nom, adresse: B.adresse, quartier: B.quartier || B.adresse }];
+    return [];
+  }
+  /** Adresses complètes, dans l'ordre déclaré. */
+  function adresses() {
+    return boutiques().map((b) => b.adresse);
+  }
+  /** Quartiers seuls, pour les lignes courtes (en-tête, pied, badge). */
+  function quartiers() {
+    return boutiques().map((b) => b.quartier || b.adresse);
+  }
+  /** Lien Google Maps d'un point de vente : nom de la boutique + quartier + ville. */
+  function lienMaps(b) {
+    return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(B.nom + ' ' + (b.quartier || b.adresse) + ' ' + B.ville);
+  }
+  /** « ACI 2000 et Bamako Coura », sans virgule entre deux éléments. Une seule adresse se passe de liaison. */
+  function enumerer(liste) {
+    if (!liste.length) return '';
+    if (liste.length === 1) return liste[0];
+    if (liste.length === 2) return liste[0] + ' et ' + liste[1];
+    return liste.slice(0, -1).join(', ') + ' et ' + liste[liste.length - 1];
+  }
+  /** Le quartier du premier point de vente, pour les phrases qui n'admettent qu'un lieu. */
+  const quartierPrincipal = () => quartiers()[0] || '';
+
   function etoiles(note) {
     const plein = Math.max(0, Math.min(5, Math.round(note)));
     return '<span class="etoiles" aria-hidden="true">' + '★'.repeat(plein) + '☆'.repeat(5 - plein) + '</span>';
@@ -516,13 +548,16 @@
     // Le nom de la boutique est porté par le logo : l'attribut alt suit data.js.
     const logo = $('.marque__logo');
     if (logo) logo.alt = B.nom;
-    $('#marque-base').textContent = B.quartier + ' · ' + B.ville;
+    $('#marque-base').textContent = (boutiques().length > 1 ? boutiques().length + ' boutiques' : quartierPrincipal()) + ' · ' + B.ville;
+    const villeCourte = B.ville.split(',')[0];
+    $('#hero-etiquette').textContent =
+      (boutiques().length > 1 ? boutiques().length + ' boutiques à ' + villeCourte : 'Boutique à ' + villeCourte) + ' · ' + enumerer(quartiers());
     $('#hero-titre').innerHTML = echapper(B.nom) + '<br><span style="color:var(--accent)">' + echapper(B.signature) + '</span>';
     $('#hero-texte').textContent = B.description;
     $('#hero-wa').href = lienWa('Bonjour ' + B.nom + ', je souhaite des informations.');
     $('#hero-tel').href = lienTel();
     $('#hero-tel').textContent = 'Appeler ' + B.tel[0];
-    $('#hero-adresse').textContent = B.adresse;
+    $('#hero-adresse').textContent = enumerer(quartiers()) + ', ' + B.ville.split(',')[0];
 
     $('#stat-produits').textContent = PRODUITS.length;
     $('#stat-followers').textContent = '12 K';
@@ -568,8 +603,12 @@
       ? ' · prix indicatifs en ' + B.devise + ', confirmés au moment du devis.'
       : ' · aucun prix affiché, le prix du jour est annoncé par la boutique sur WhatsApp.';
 
-    $('#contact-adresse').textContent = B.adresse;
-    $('#contact-maps').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(B.nom + ' ' + B.quartier + ' ' + B.ville);
+    /* Un point de vente = une ligne, avec son itinéraire. L'étiquette se met au
+       pluriel dès que la boutique en déclare deux. */
+    $('#contact-adresse-etiquette').textContent = boutiques().length > 1 ? 'Boutiques' : 'Adresse';
+    $('#contact-adresses').innerHTML = boutiques()
+      .map((b) => '<span class="boutique-ligne">' + echapper(b.adresse) + ' <a href="' + echapper(lienMaps(b)) + '" target="_blank" rel="noopener">Google Maps</a></span>')
+      .join('');
     $('#contact-tel').innerHTML = B.tel.map((t, i) => '<a href="tel:' + t.replace(/[^0-9+ ]/g, '').replace(/ /g, '') + '">' + echapper(t) + '</a>' + (i < B.tel.length - 1 ? ' · ' : '')).join('');
     $('#contact-mail').href = 'mailto:' + B.email + '?subject=' + encodeURIComponent('Demande de prix — ' + B.nom);
     $('#contact-mail').textContent = B.email;
@@ -577,7 +616,7 @@
     $('#contact-wa-2').href = lienWa('Bonjour ' + B.nom + ', je souhaite un prix.');
     $('#contact-fb').href = B.facebook;
     $('#pied-fb').href = B.facebook;
-    $('#pied-mention').textContent = B.nom + ' · ' + B.adresse + ' · ' + B.tel.join(' · ');
+    $('#pied-mention').textContent = B.nom + ' · ' + enumerer(quartiers()) + ', ' + villeCourte + ' · ' + B.tel.join(' · ');
     $('#flottant-wa').href = lienWa('Bonjour ' + B.nom + ', je souhaite un prix.');
     $('#envoi-note').textContent = 'Le récapitulatif s’ouvre dans WhatsApp, au ' + B.tel[0] + '. Rien n’est envoyé sans que vous validiez le message.';
 
@@ -606,7 +645,7 @@
     else if (jour === 6) ferme = h < 9 || h >= 18;
     else ferme = true;
     const el = $('#ouvert');
-    el.textContent = ferme ? 'Fermé maintenant · écrivez sur WhatsApp' : 'Ouvert maintenant · ' + B.adresse;
+    el.textContent = ferme ? 'Fermé maintenant · écrivez sur WhatsApp' : 'Ouvert maintenant · ' + enumerer(quartiers());
     el.classList.toggle('ouvert-ferme--ferme', ferme);
   }
 
@@ -974,6 +1013,11 @@
      exposer l'état du panier. */
   window.ELECTRO21App = {
     boutique: B,
+    boutiques: boutiques,
+    adresses: adresses,
+    quartiers: quartiers,
+    lienMaps: lienMaps,
+    enumerer: enumerer,
     produits: PRODUITS,
     produit: produit,
     filtrer: filtrer,

@@ -1,6 +1,6 @@
 # Electro 21 — site de vente
 
-Site de la boutique **Electro 21** (téléphones, ordinateurs, tablettes, accessoires), à ACI 2000, Bamako. Le client parcourt le catalogue, compose sa demande, puis l'envoie préremplie sur **WhatsApp au 77 77 77 00** : aucun compte, aucun paiement en ligne, aucun serveur à maintenir. **Le catalogue n'affiche aucun prix** — la boutique annonce le prix du jour dans la conversation (voir [Prix](#prix--le-catalogue-nen-affiche-aucun)).
+Site de la boutique **Electro 21** (téléphones, ordinateurs, tablettes, accessoires), **deux points de vente à Bamako : ACI 2000 et Bamako Coura**. Le client parcourt le catalogue, compose sa demande, puis l'envoie préremplie sur **WhatsApp au 77 77 77 00** : aucun compte, aucun paiement en ligne, aucun serveur à maintenir. **Le catalogue n'affiche aucun prix** — la boutique annonce le prix du jour dans la conversation (voir [Prix](#prix--le-catalogue-nen-affiche-aucun)).
 
 Le même dossier donne **deux versions** : le site complet sur ordinateur, et une application installable sur téléphone (Android et iPhone) avec barre d'onglets et fonctionnement hors connexion. Voir [Deux versions](#deux-versions).
 
@@ -118,6 +118,17 @@ Un produit :
 ```
 
 Les coordonnées, horaires, moyens de paiement et le rayon affiché dans l'en-tête se changent dans le bloc `boutique` du même fichier. C'est aussi là que se range `urlSite`, l'adresse publique utilisée par les codes QR.
+
+Les points de vente se déclarent dans `boutique.boutiques`, une ligne par boutique ouverte au public :
+
+```js
+boutiques: [
+  { id: 'aci', nom: 'Boutique ACI 2000', adresse: 'ACI 2000, Bamako', quartier: 'ACI 2000' },
+  { id: 'coura', nom: 'Boutique Bamako Coura', adresse: 'Bamako Coura, Bamako', quartier: 'Bamako Coura' },
+],
+```
+
+Le site s'adapte à la longueur de la liste : une seule boutique donne « Boutique à Bamako · Depuis ACI 2000 » et une étiquette « Adresse » ; deux ou plus donnent « 2 boutiques à Bamako · ACI 2000 et Bamako Coura » et une étiquette « Boutiques », avec un lien Google Maps par adresse dans le rayon Contact. Les horaires, les numéros et WhatsApp restent communs à tous les points de vente. Un fichier de données qui n'aurait que les anciens champs `adresse` et `quartier` continue de fonctionner : ils servent de repli.
 
 Trois listes s'ajoutent aux produits, toutes trois éditables dans le back-office :
 

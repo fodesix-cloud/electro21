@@ -953,6 +953,17 @@ button {
 .coordonnee a:hover {
   border-bottom-color: var(--accent);
 }
+/* Un point de vente par ligne : la liste des boutiques tient dans la même
+   colonne que les autres coordonnées, sans tableau ni encadré. */
+.boutique-ligne {
+  display: block;
+  padding: 1px 0;
+}
+.boutique-ligne a {
+  font-size: 13px;
+  color: var(--encre-douce);
+  white-space: nowrap;
+}
 .horaires {
   width: 100%;
   border-collapse: collapse;

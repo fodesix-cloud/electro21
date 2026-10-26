@@ -29,6 +29,18 @@
     return String(txt).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   }
 
+  /* Lieux de la boutique, lus sans dépendre de l'ordre de chargement des scripts :
+     `boutiques` (liste) depuis data.js, avec repli sur l'ancienne adresse unique.
+     La ville est reprise avant sa virgule : « Bamako, Mali » se lit « Bamako » ici,
+     pour éviter la triple énumération « ACI 2000, Bamako, Mali ». */
+  function lieuxAssistant() {
+    const l = (Array.isArray(B.boutiques) ? B.boutiques : []).map((b) => b.quartier || b.adresse).filter(Boolean);
+    if (!l.length && B.quartier) l.push(B.quartier);
+    const ville = (B.ville || '').split(',')[0];
+    if (!l.length) return ville;
+    return l.join(' et ') + ', ' + ville;
+  }
+
   /** Comme app.js : tout en minuscules, sans accents ni ponctuation. */
   function sansAccent(txt) {
     return String(txt)
@@ -214,7 +226,7 @@
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 3z" /><circle cx="9" cy="10.5" r="1" /><circle cx="15" cy="10.5" r="1" /></svg>' +
     '<span class="assistant__lanceur-texte">Une question&nbsp;?</span></button>' +
     '<section class="assistant__boite" id="assistant-boite" hidden role="dialog" aria-modal="false" aria-labelledby="assistant-titre">' +
-    '<header class="assistant__tete"><div><h2 id="assistant-titre">' + echapper(A.titre) + '</h2><p>' + echapper(B.nom) + ' · ' + echapper(B.quartier) + ', ' + echapper(B.ville) + '</p></div>' +
+    '<header class="assistant__tete"><div><h2 id="assistant-titre">' + echapper(A.titre) + '</h2><p>' + echapper(B.nom) + ' · ' + echapper(lieuxAssistant()) + '</p></div>' +
     '<button class="fermer" id="assistant-fermer" type="button" aria-label="Fermer l’assistant">✕</button></header>' +
     '<div class="assistant__corps" id="assistant-corps" role="log" aria-live="polite" aria-atomic="false"></div>' +
     '<form class="assistant__pied" id="assistant-form"><label class="sur-mesure" for="assistant-champ">Votre question</label>' +
