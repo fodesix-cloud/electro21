@@ -879,6 +879,19 @@ button {
   font-size: 12.5px;
   padding: 7px 11px;
 }
+/* Entrée du back-office, en bas de la carte Contact : un simple filet, pour que
+   la boutique trouve l'outil sans que le lien s'impose au client. */
+.lien-vendeur {
+  margin: 18px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--filet);
+  font-size: 13px;
+  color: var(--encre-douce);
+}
+.lien-vendeur a {
+  color: var(--encre);
+  font-weight: 600;
+}
 .fiche__qr {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -1731,6 +1744,13 @@ button {
 @media (max-width: 900px) {
   body {
     padding-bottom: calc(62px + env(safe-area-inset-bottom));
+  }
+
+  /* liens du pied de page : assez hauts pour le pouce, sans décaler le texte */
+  .pied a {
+    display: inline-block;
+    padding: 10px 6px;
+    margin: -10px -6px;
   }
 
   /* une seule vue visible à la fois */

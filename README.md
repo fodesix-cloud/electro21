@@ -61,6 +61,8 @@ Pour tenir le catalogue sans ouvrir un fichier de code. Le back-office est une p
 
 Ouvrir `admin.html` (double-clic, ou `http://127.0.0.1:8090/admin.html`), taper le code d'accueil — `electro21` par défaut, dans `admin.code` de [js/data.js](js/data.js) — puis travailler rubrique par rubrique : Boutique, Produits, Rayons, Réalisations, Partenaires, Assistant, Réglages.
 
+Le lien d'entrée est au pied de toutes les pages, rappelé dans la carte Contact du rayon « La boutique » (accessible depuis l'onglet Rayons sur téléphone), et sur la planche [etiquettes.html](etiquettes.html). Dans l'autre sens, le back-office renvoie vers le site et vers la planche d'étiquettes.
+
 Ce que la page fait :
 
 - elle copie les données de `js/data.js` dans un **brouillon** gardé dans le navigateur (`localStorage`), et l'on peut fermer la page, reprendre le lendemain ;

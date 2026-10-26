@@ -20,9 +20,9 @@ window.ELECTRO21 = {
     adresse: 'ACI 2000, Bamako',
     quartier: 'ACI 2000',
     /* Adresse publique du site, sans slash final. Elle sert aux codes QR (fiche,
-       vitrine, back-office). Tant qu'elle est vide, les QR reprennent l'adresse
-       de la page en cours — pratique en local, à remplacer à la publication. */
-    urlSite: '',
+       vitrine, planche d'étiquettes). Site publié le 26 octobre 2026 sur Vercel ;
+       si le domaine change, reprendre cette valeur et les balises og: de index.html. */
+    urlSite: 'https://electro21.vercel.app',
     tel: ['+223 77 77 77 00', '+223 95 21 21 21'],
     whatsapp: '22377777700',
     email: 'oldbouba60@yahoo.fr',
