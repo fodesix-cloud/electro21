@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Back-office — Electro 21</title>
+    <meta name="description" content="Modification locale des données de la boutique : coordonnées, catalogue, réalisations, partenaires, assistant et codes QR." />
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <p class="avertissement-general">
+      Outil local, sans serveur : les modifications restent dans ce navigateur jusqu’à l’enregistrement du fichier
+      <code>js/data.js</code>. Le code d’accueil n’écarte que les gestes par hasard, il ne protège rien.
+    </p>
+
+    <section class="porte" id="porte">
+      <div class="porte__carte">
+        <h1>Back-office Electro 21</h1>
+        <p>Tenir la boutique à jour : catalogue, prix du jour, réalisations, partenaires, assistant et étiquettes QR.</p>
+        <label for="code">Code d’accueil</label>
+        <input id="code" type="password" autocomplete="off" spellcheck="false" placeholder="Le code est écrit dans js/data.js" />
+        <p class="porte__aide" id="porte-aide"></p>
+        <button class="bouton bouton--principal" id="entrer" type="button">Ouvrir le back-office</button>
+        <p class="porte__refus" id="porte-refus" hidden>Le code ne correspond pas. Il se lit à la rubrique <code>admin.code</code> de <code>js/data.js</code>.</p>
+      </div>
+    </section>
+
+    <div class="coquille" id="coquille" hidden>
+      <header class="coquille__tete">
+        <div>
+          <h1>Back-office <span id="tete-nom">Electro 21</span></h1>
+          <p id="tete-etat">Brouillon enregistré dans ce navigateur.</p>
+        </div>
+        <div class="coquille__actions">
+          <button class="bouton" id="voir-site" type="button">Ouvrir le site</button>
+          <button class="bouton" id="recharger" type="button">Revenir au fichier</button>
+          <button class="bouton bouton--principal" id="telecharger" type="button">Enregistrer js/data.js</button>
+        </div>
+      </header>
+
+      <div class="corps">
+        <nav class="rubriques" aria-label="Rubriques du back-office">
+          <button class="rubrique" type="button" data-rubrique="boutique">Boutique</button>
+          <button class="rubrique" type="button" data-rubrique="produits">Produits <span class="compteur" id="nb-produits">0</span></button>
+          <button class="rubrique" type="button" data-rubrique="categories">Rayons <span class="compteur" id="nb-categories">0</span></button>
+          <button class="rubrique" type="button" data-rubrique="realisations">Réalisations <span class="compteur" id="nb-realisations">0</span></button>
+          <button class="rubrique" type="button" data-rubrique="partenaires">Partenaires <span class="compteur" id="nb-partenaires">0</span></button>
+          <button class="rubrique" type="button" data-rubrique="assistant">Assistant <span class="compteur" id="nb-questions">0</span></button>
+          <button class="rubrique" type="button" data-rubrique="reglages">Codes QR et réglages</button>
+        </nav>
+
+        <main class="edition">
+          <div id="formulaire"></div>
+        </main>
+
+        <aside class="apercu">
+          <div class="apercu__tete">
+            <h2>Aperçu</h2>
+            <label class="taille">
+              Largeur
+              <select id="apercu-largeur">
+                <option value="390">Téléphone · 390 px</option>
+                <option value="768">Tablette · 768 px</option>
+                <option value="1100" selected>Ordinateur · 1100 px</option>
+              </select>
+            </label>
+          </div>
+          <div class="apercu__cadre" id="apercu-cadre">
+            <iframe id="apercu-if" title="Aperçu du site" src="index.html?apercu=1"></iframe>
+          </div>
+          <p class="apercu__note">L’aperçu utilise le brouillon en cours, pas le fichier enregistré. Rechargez la page du site pour voir le même résultat hors back-office.</p>
+        </aside>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/qr.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>

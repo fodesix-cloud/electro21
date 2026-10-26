@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Electro 21 — Téléphones, ordinateurs et matériel informatique à Bamako</title>
+    <meta
+      name="description"
+      content="Electro 21, boutique de téléphones portables, ordinateurs, tablettes et accessoires à ACI 2000, Bamako. Prix en boutique ou devis immédiat sur WhatsApp."
+    />
+    <meta name="theme-color" content="#15171B" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Electro 21" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="assets/icones/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icones/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icones/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icones/icon-192.png" />
+    <meta property="og:title" content="Electro 21 — Univers du téléphone haut de gamme à Bamako" />
+    <meta property="og:description" content="Smartphones, tablettes, ordinateurs, audio et accessoires. Devis et commande en un message WhatsApp." />
+    <meta property="og:image" content="assets/marque/partage-1200x630.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Le comptoir de la boutique Electro 21 et son logo" />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <a class="sur-mesure" href="#catalogue">Aller au catalogue</a>
+
+    <header class="entete">
+      <div class="entete__interieur">
+        <a class="marque" href="#" aria-label="Electro 21, accueil">
+          <img class="marque__logo" src="assets/marque/logo.png" alt="Electro 21" width="428" height="140" />
+          <span class="marque__base" id="marque-base">ACI 2000 · Bamako, Mali</span>
+        </a>
+        <nav class="nav" aria-label="Navigation principale">
+          <a href="#catalogue">Catalogue</a>
+          <a href="#rayons">Rayons</a>
+          <a href="#realisations">Réalisations</a>
+          <a href="#partenaires">Partenaires</a>
+          <a href="#commander">Commander</a>
+          <a href="#contact">Boutique</a>
+        </nav>
+        <button class="btn btn--secondaire panier-bouton" id="ouvrir-panier">
+          Ma demande <span class="pastille" id="panier-count" hidden>0</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="herse">
+        <div class="herse__interieur">
+          <div>
+            <p class="etiquette">Boutique à Bamako · Depuis ACI 2000</p>
+            <h1 id="hero-titre">Electro 21</h1>
+            <p class="herse__soustitre" id="hero-texte">
+              Boutique de vente de téléphones portables, d’ordinateurs, de matériel informatique et d’accessoires.
+            </p>
+            <div class="herse__actions">
+              <a class="btn btn--wa" id="hero-wa" href="#">Obtenir un prix sur WhatsApp</a>
+              <a class="btn btn--secondaire" id="hero-tel" href="#">Appeler la boutique</a>
+              <a class="btn btn--secondaire" href="#catalogue" data-vue="catalogue">Parcourir le catalogue</a>
+            </div>
+            <p style="font-size: 13.5px; color: var(--encre-douce); margin-top: 18px">
+              <span id="hero-adresse">ACI 2000, Bamako</span> — neuf, scellé, facturé, garanti.
+            </p>
+            <div class="stats">
+              <div>
+                <div class="stat__valeur chiffres" id="stat-produits">21</div>
+                <div class="stat__legende">produits en vitrine</div>
+              </div>
+              <div>
+                <div class="stat__valeur chiffres" id="stat-followers">12 K</div>
+                <div class="stat__legende">abonnés sur Facebook</div>
+              </div>
+              <div>
+                <div class="stat__valeur chiffres" id="stat-note">4,5 / 5</div>
+                <div class="stat__legende" id="stat-note-legende">90 % des clients recommandent</div>
+              </div>
+            </div>
+          </div>
+          <figure class="herse__photos">
+            <div class="herse__cadre">
+              <img
+                class="herse__photo"
+                src="assets/marque/vitrine.jpg"
+                alt="Le comptoir de la boutique Electro 21, ordinateurs portables exposés"
+                width="720"
+                height="720"
+              />
+            </div>
+            <img
+              class="herse__couverture"
+              src="assets/marque/couverture.jpg"
+              alt="Bannière Electro 21 — Tout pour l'Électronique, tél. 20 80 04 00 / 77 77 77 00"
+              width="922"
+              height="270"
+            />
+            <figcaption>Photo de la vitrine et bannière publiées par la boutique sur sa page Facebook.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <div class="garanties">
+        <div class="garanties__interieur" id="garanties"></div>
+      </div>
+
+      <section class="section section--selection" id="selection">
+        <div class="section__tete">
+          <div>
+            <p class="etiquette">Sélection</p>
+            <h2>Les modèles du moment</h2>
+          </div>
+          <button class="btn btn--secondaire" data-vue="catalogue" type="button">Tout le catalogue</button>
+        </div>
+        <div class="grille" id="selection-grille"></div>
+      </section>
+
+      <section class="section" id="catalogue">
+        <div class="section__tete">
+          <div>
+            <p class="etiquette">Catalogue</p>
+            <h2>Trouver l’appareil qu’il vous faut</h2>
+            <p style="font-size: 14px; color: var(--encre-douce); margin: 0">
+              <span id="resultats" aria-live="polite">—</span><span id="regle-prix"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="outil">
+          <div class="outil__rang">
+            <div class="champ">
+              <label class="sur-mesure" for="recherche">Rechercher un produit</label>
+              <input id="recherche" type="search" placeholder="iPhone, tablette, chargeur… (touche /)" autocomplete="off" />
+              <button class="champ__effacer" data-effacer type="button" aria-label="Effacer la recherche">✕</button>
+            </div>
+            <label class="choix">
+              Tri
+              <select id="tri">
+                <option value="populaires">Les plus vendus</option>
+                <option value="nouveaux">Nouveautés</option>
+                <option value="prix_croissant">Prix croissant</option>
+                <option value="prix_decroissant">Prix décroissant</option>
+                <option value="note">Mieux notés</option>
+              </select>
+            </label>
+            <label class="choix">
+              Budget
+              <select id="prixMax"></select>
+            </label>
+            <label class="choix">
+              Disponibilité
+              <select id="dispo">
+                <option value="tous">Tout</option>
+                <option value="en-stock">En stock</option>
+                <option value="stock-faible">Derniers pièces</option>
+                <option value="sur-commande">Sur commande</option>
+              </select>
+            </label>
+          </div>
+          <div class="categories" id="categories" role="group" aria-label="Filtrer par rayon"></div>
+          <div class="outil__pied">
+            <span>Un doute sur le modèle ou le prix ? Envoyez la liste sur WhatsApp, la boutique répond avec le prix du jour.</span>
+            <span class="fondus">
+              <button class="btn btn--fantome" data-reset type="button">Réinitialiser les filtres</button>
+              <button class="btn btn--fantome" id="ouvrir-panier-2" type="button" data-panier>Voir ma demande</button>
+            </span>
+          </div>
+        </div>
+
+        <div class="grille" id="catalogue-grille"></div>
+        <div class="vide" id="catalogue-vide" hidden>
+          Aucun produit ne correspond à cette recherche.<br />
+          Écrivez « <span id="vide-terme"></span> » à la boutique : elle vérifie le stock et l’arrivage.
+          <div style="margin-top: 16px"><a class="btn btn--wa" id="vide-wa" href="#" target="_blank" rel="noopener">Demander à la boutique</a></div>
+        </div>
+      </section>
+
+      <section class="section" id="rayons">
+        <div class="section__tete">
+          <div>
+            <p class="etiquette">Rayons</p>
+            <h2>Ce que la boutique propose</h2>
+          </div>
+        </div>
+        <div class="rayons" id="rayons-grille"></div>
+      </section>
+
+      <section class="section" id="realisations">
+        <div class="section__tete">
+          <div>
+            <p class="etiquette">Réalisations</p>
+            <h2>Ce qui passe en boutique</h2>
+            <p style="font-size: 14px; color: var(--encre-douce); margin: 0">
+              Arrivages, vitrines et annonces repris de la page Facebook de la boutique. Les photos sont celles publiées par Electro 21.
+            </p>
+          </div>
+        </div>
+        <div class="realisations" id="realisations-grille"></div>
+        <p class="note-envoi" id="realisations-note" hidden>Aucune réalisation publiée pour le moment.</p>
+      </section>
+
+      <section class="section" id="partenaires">
+        <div class="section__tete">
+          <div>
+            <p class="etiquette">Partenaires</p>
+            <h2>Comment payer, comment recevoir</h2>
+            <p style="font-size: 14px; color: var(--encre-douce); margin: 0">
+              Les moyens de paiement acceptés au comptoir et le service de livraison à Bamako.
+            </p>
+          </div>
+        </div>
+        <div class="partenaires" id="partenaires-grille"></div>
+        <h3 class="marques-titre">Marques en boutique</h3>
+        <div class="marques" id="marques-liste"></div>
+        <p class="note-envoi">Le stock des marques suit les arrivages : demandez la liste du jour sur WhatsApp avant de vous déplacer.</p>
+      </section>
+
+      <section class="section" id="commander">
+        <div class="section__tete">
+          <div>
+            <p class="etiquette">Commander</p>
+            <h2>Trois étapes, sans compte à créer</h2>
+          </div>
+        </div>
+        <div class="rayons">
+          <div class="rayon">
+            <h3>1. Composez votre demande</h3>
+            <p>Ajoutez les modèles qui vous intéressent au panier, quantité comprise. Rien n’est envoyé tant que vous n’avez pas validé.</p>
+          </div>
+          <div class="rayon">
+            <h3>2. Envoyez sur WhatsApp</h3>
+            <p>Le récapitulatif de votre demande s’ouvre dans une conversation au 77 77 77 00. La boutique confirme le stock, le prix du jour et la livraison.</p>
+          </div>
+          <div class="rayon">
+            <h3>3. Retrait ou livraison</h3>
+            <p>Vérification de l’appareil devant vous, facture et garantie remises à la boutique d’ACI 2000 ou à la livraison dans Bamako.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="contact__interieur">
+          <div>
+            <p class="etiquette">La boutique</p>
+            <h2>Venir voir, appeler, écrire</h2>
+            <div class="coordonnees">
+              <div class="coordonnee">
+                <span class="etiquette">Adresse</span>
+                <span>
+                  <span id="contact-adresse">ACI 2000, Bamako</span><br />
+                  <a id="contact-maps" href="#" target="_blank" rel="noopener">Ouvrir dans Google Maps</a>
+                </span>
+              </div>
+              <div class="coordonnee">
+                <span class="etiquette">Téléphone</span>
+                <span id="contact-tel"></span>
+              </div>
+              <div class="coordonnee">
+                <span class="etiquette">WhatsApp</span>
+                <span><a id="contact-wa" href="#" target="_blank" rel="noopener">Demander un prix maintenant</a></span>
+              </div>
+              <div class="coordonnee">
+                <span class="etiquette">E-mail</span>
+                <span><a id="contact-mail" href="#">oldbouba60@yahoo.fr</a></span>
+              </div>
+              <div class="coordonnee">
+                <span class="etiquette">Facebook</span>
+                <span><a id="contact-fb" href="#" target="_blank" rel="noopener">Page Electro 21 · 12 K abonnés</a></span>
+              </div>
+            </div>
+            <p><span class="ouvert-ferme" id="ouvert">Ouvert</span></p>
+          </div>
+          <div class="carte-ouverte">
+            <h3>Horaires</h3>
+            <table class="horaires" id="horaires"></table>
+            <p style="font-size: 14px; color: var(--encre-douce); margin-top: 16px">
+              En dehors des horaires, écrivez sur WhatsApp : la réponse arrive dès l’ouverture, avec le prix du jour et la disponibilité réelle.
+            </p>
+            <a class="btn btn--wa" id="contact-wa-2" href="#" target="_blank" rel="noopener" data-contact-wa>Écrire à la boutique</a>
+            <div class="qrcode">
+              <div class="qrcode__image" id="qr-site" aria-hidden="true"></div>
+              <div class="qrcode__texte">
+                <h3>Le site dans votre poche</h3>
+                <p>Scannez ce code avec l’appareil photo du téléphone : le catalogue s’ouvre, sans rien à taper. Le même code est disponible en carte à imprimer pour le comptoir.</p>
+                <div class="qrcode__actions">
+                  <a class="btn btn--fantome" id="qr-site-telecharger" href="#" download="electro21-qr-site.svg">Télécharger le code</a>
+                  <a class="btn btn--fantome" href="etiquettes.html">Imprimer les étiquettes</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pied">
+      <div class="pied__interieur">
+        <span id="pied-mention">Electro 21 · ACI 2000, Bamako</span>
+        <span>
+          Site de la boutique · <a id="pied-fb" href="#" target="_blank" rel="noopener">Facebook</a> ·
+          <a href="#catalogue">Catalogue</a> · <a href="#contact">Contact</a> · <a href="admin.html">Back-office</a>
+        </span>
+      </div>
+    </footer>
+
+    <div class="installer" id="installer" hidden>
+      <div class="installer__texte">
+        <strong>Installer Electro 21</strong>
+        <span id="installer-consigne">Accès depuis l’écran d’accueil, catalogue consultable hors connexion.</span>
+      </div>
+      <button class="btn" id="installer-btn" hidden>Installer</button>
+      <button class="fermer" id="installer-fermer" aria-label="Fermer ce message">✕</button>
+    </div>
+
+    <nav class="onglets" id="onglets" aria-label="Navigation de l’application">
+      <button class="onglet" data-vue="accueil" type="button" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>
+        <span>Accueil</span>
+      </button>
+      <button class="onglet" data-vue="catalogue" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="1.2" /><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.2" /><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.2" /><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.2" /></svg>
+        <span>Catalogue</span>
+      </button>
+      <button class="onglet" data-vue="rayons" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" /></svg>
+        <span>Rayons</span>
+      </button>
+      <button class="onglet" data-vue="demande" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" /><path d="M9 8h6M9 12h6" /></svg>
+        <span>Ma demande</span>
+        <span class="pastille" id="onglet-count" hidden>0</span>
+      </button>
+    </nav>
+
+    <a class="btn btn--wa flottant" id="flottant-wa" href="#" target="_blank" rel="noopener" aria-label="Écrire à la boutique sur WhatsApp"
+      ><svg class="flottant__icone" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3.4c-4.5 0-8.2 3.4-8.2 7.6 0 2 .8 3.7 2.1 5.1L4.9 19l3-1.1c1.2.5 2.5.7 3.8.7 4.5 0 8.2-3.4 8.2-7.6S16.5 3.4 12 3.4z" />
+        <path d="M9.7 9.2c-.2 1.4 1 3 2.3 3.9.9.7 2 .9 2.6.4l.5-.6-1.5-1.3-.7.5c-.6-.3-1.1-.9-1.4-1.5l.5-.7z" />
+      </svg><span>WhatsApp</span></a
+    >
+
+    <div class="voile" id="voile"></div>
+
+    <aside class="tiroir" id="tiroir" aria-hidden="true" aria-labelledby="tiroir-titre" role="dialog">
+      <div class="tiroir__tete">
+        <h2 id="tiroir-titre">Ma demande de prix</h2>
+        <span id="panier-total-libelle" style="font-size: 13px; color: var(--encre-pale)">0 article</span>
+        <button class="fermer" id="fermer-tiroir" aria-label="Fermer le panier">✕</button>
+      </div>
+      <div class="tiroir__corps" id="panier-lignes"></div>
+      <div class="tiroir__pied">
+        <div class="total-ligne"><span>Total indicatif</span><strong class="chiffres" id="panier-total">Prix sur demande</strong></div>
+        <label class="sur-mesure" for="nom">Votre nom</label>
+        <input class="champ-texte" id="nom" placeholder="Votre nom (facultatif)" autocomplete="name" />
+        <label class="sur-mesure" for="quartier">Votre quartier</label>
+        <input class="champ-texte" id="quartier" placeholder="Votre quartier à Bamako (pour la livraison)" autocomplete="off" />
+        <label class="sur-mesure" for="message">Précision</label>
+        <textarea class="champ-texte" id="message" rows="2" placeholder="Précision : couleur, capacité, date souhaitée…"></textarea>
+        <button class="btn btn--wa btn--plein" id="envoyer-devis">Envoyer la demande sur WhatsApp</button>
+        <button class="btn btn--fantome btn--plein" id="vider-panier" style="margin-top: 8px">Vider la demande</button>
+        <p class="note-envoi" id="envoi-note"></p>
+      </div>
+    </aside>
+
+    <div class="voile" id="voile-fiche"></div>
+    <div class="boite" id="fiche" hidden role="dialog" aria-modal="true" aria-label="Fiche produit">
+      <div class="boite__carte" id="fiche-contenu"></div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/visuels.js"></script>
+    <script src="js/qr.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/chatbot.js"></script>
+  </body>
+</html>

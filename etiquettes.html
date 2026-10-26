@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Étiquettes QR — Electro 21</title>
+    <meta name="description" content="Planche d’étiquettes à imprimer pour le comptoir : une carte par produit, avec le code QR de sa fiche." />
+    <meta name="robots" content="noindex" />
+    <style>
+      /* Feuille autonome : l'impression ne doit rien devoir au site ni à Internet.
+         Seules les polices système, aucune image externe, aucun stylesheet partagé. */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: #15171b;
+        background: #f4f1ea;
+      }
+      .barre {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        align-items: center;
+        padding: 14px 18px;
+        background: #fff;
+        border-bottom: 1px solid #cec8bc;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+      .barre h1 {
+        font-size: 16px;
+        margin: 0 auto 0 0;
+      }
+      .barre a,
+      .barre button {
+        font: inherit;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #15171b;
+        background: #fff;
+        border: 1px solid #cec8bc;
+        padding: 8px 13px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .barre button:hover,
+      .barre a:hover {
+        border-color: #15171b;
+      }
+      .avertissement {
+        margin: 14px 18px 0;
+        font-size: 13px;
+        color: #4b4f57;
+        max-width: 74ch;
+      }
+      .planche {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(216px, 1fr));
+        gap: 12px;
+        padding: 18px;
+        max-width: 1180px;
+      }
+      .etiquette {
+        display: grid;
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 12px;
+        align-items: center;
+        background: #fff;
+        border: 1px solid #d7d1c6;
+        padding: 12px;
+        break-inside: avoid;
+      }
+      .etiquette svg {
+        width: 96px;
+        height: 96px;
+      }
+      .etiquette__marque {
+        font-size: 10.5px;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: #8a8578;
+      }
+      .etiquette__nom {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 2px 0 3px;
+        line-height: 1.25;
+      }
+      .etiquette__prix {
+        font-size: 12px;
+        color: #4b4f57;
+      }
+      .etiquette__note {
+        font-size: 9.5px;
+        color: #8a8578;
+        margin-top: 5px;
+        word-break: break-all;
+      }
+      @media print {
+        body {
+          background: #fff;
+        }
+        .barre,
+        .avertissement {
+          display: none;
+        }
+        .planche {
+          gap: 6mm;
+          padding: 0;
+          max-width: none;
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .etiquette {
+          border-color: #b9b3a7;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="barre">
+      <h1>Étiquettes QR du comptoir</h1>
+      <button id="imprimer" type="button">Imprimer la planche</button>
+      <a href="index.html">Revenir au site</a>
+    </div>
+    <p class="avertissement" id="consigne">
+      Une carte par produit : le code QR ouvre la fiche correspondante. Imprimez sur une feuille A4, découpez et posez sur l’appareil ou sur le présentoir.
+      La planche reprend l’adresse publiée du site, renseignée dans <code>js/data.js</code> (rubrique <code>boutique.urlSite</code>).
+    </p>
+    <div class="planche" id="planche"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/qr.js"></script>
+    <script>
+      /* La planche se construit depuis js/data.js : elle suit donc le back-office
+         et le catalogue sans autre saisie. */
+      (function () {
+        const D = window.ELECTRO21;
+        const B = D.boutique;
+        const hote = document.getElementById('planche');
+        const consigne = document.getElementById('consigne');
+
+        function echapper(txt) {
+          return String(txt).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+        }
+        function sansAccent(txt) {
+          return String(txt)
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .replace(/[^a-z0-9]+/g, ' ')
+            .trim()
+            .replace(/ /g, '-');
+        }
+
+        let base = B.urlSite ? String(B.urlSite).replace(/\/+$/, '') : '';
+        if (!base && location.protocol.indexOf('http') === 0) base = location.origin + location.pathname.replace(/[^/]*$/, '');
+        if (!base) {
+          consigne.textContent =
+            'Aucune adresse publiée : le site est ouvert en local. Renseignez boutique.urlSite dans js/data.js (ou le back-office) pour des étiquettes scannables hors de la boutique.';
+        }
+
+        hote.innerHTML = D.produits
+          .map((p) => {
+            const slug = p.slug || sansAccent(p.nom);
+            const url = base ? base + '#/produit/' + slug : '';
+            const code = url ? window.QR.svg(url, { taille: 96, titre: 'QR de la fiche ' + p.nom }) : '<p class="etiquette__note">Adresse du site manquante</p>';
+            return (
+              '<div class="etiquette">' +
+              '<div>' + code + '</div>' +
+              '<div><div class="etiquette__marque">' + echapper(p.marque) + '</div>' +
+              '<div class="etiquette__nom">' + echapper(p.nom) + '</div>' +
+              '<div class="etiquette__prix">' + (typeof p.prix === 'number' ? echapper(p.prix + ' ' + B.devise) : 'Prix sur demande') + '</div>' +
+              '<div class="etiquette__note">' + echapper(url || '') + '</div>' +
+              '</div></div>'
+            );
+          })
+          .join('');
+
+        document.getElementById('imprimer').addEventListener('click', () => window.print());
+        document.title = 'Étiquettes QR — ' + B.nom;
+      })();
+    </script>
+  </body>
+</html>

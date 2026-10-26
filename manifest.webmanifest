@@ -1,0 +1,68 @@
+{
+  "id": "electro21",
+  "name": "Electro 21 — téléphones, ordinateurs et accessoires à Bamako",
+  "short_name": "Electro 21",
+  "description": "Catalogue de la boutique Electro 21 à ACI 2000, Bamako : smartphones, tablettes, ordinateurs, audio, montres et accessoires. Devis en un message WhatsApp.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./index.html?source=ecran-accueil",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#FBFAF8",
+  "theme_color": "#15171B",
+  "categories": ["shopping", "business"],
+  "icons": [
+    {
+      "src": "assets/icones/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icones/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icones/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catalogue",
+      "short_name": "Catalogue",
+      "description": "Parcourir tous les produits",
+      "url": "./index.html#/catalogue",
+      "icons": [{ "src": "assets/icones/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Ma demande de prix",
+      "short_name": "Ma demande",
+      "description": "Retrouver la liste envoyée sur WhatsApp",
+      "url": "./index.html#/demande",
+      "icons": [{ "src": "assets/icones/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Rayons et boutique",
+      "short_name": "Rayons",
+      "description": "Rayons, adresse, horaires et contact",
+      "url": "./index.html#/rayons",
+      "icons": [{ "src": "assets/icones/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/marque/partage-1200x630.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "La boutique Electro 21 à Bamako"
+    }
+  ]
+}
