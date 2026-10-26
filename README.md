@@ -8,7 +8,9 @@ Tenir la boutique ne demande pas de savoir coder : [admin.html](admin.html) est 
 
 ## Ouvrir le site
 
-Aucune installation, aucun build.
+En ligne : **https://electro21.vercel.app** (voir [Publier](#publier--en-ligne-depuis-le-26-octobre-2026)).
+
+Sur ce poste, aucune installation, aucun build.
 
 ```bash
 # le plus simple : double-clic sur index.html
@@ -61,7 +63,7 @@ Pour tenir le catalogue sans ouvrir un fichier de code. Le back-office est une p
 
 Ouvrir `admin.html` (double-clic, ou `http://127.0.0.1:8090/admin.html`), taper le code d'accueil — `electro21` par défaut, dans `admin.code` de [js/data.js](js/data.js) — puis travailler rubrique par rubrique : Boutique, Produits, Rayons, Réalisations, Partenaires, Assistant, Réglages.
 
-Le lien d'entrée est au pied de toutes les pages, rappelé dans la carte Contact du rayon « La boutique » (accessible depuis l'onglet Rayons sur téléphone), et sur la planche [etiquettes.html](etiquettes.html). Dans l'autre sens, le back-office renvoie vers le site et vers la planche d'étiquettes.
+Le lien d'entrée est au pied de toutes les pages, rappelé dans la carte Contact du rayon « La boutique » (accessible depuis l'onglet Rayons sur téléphone), et sur la planche [etiquettes.html](etiquettes.html). Dans l'autre sens, le back-office renvoie vers le site et vers la planche d'étiquettes. En ligne, l'outil se trouve à l'adresse https://electro21.vercel.app/admin.html.
 
 Ce que la page fait :
 
@@ -85,7 +87,7 @@ Trois usages, tous produits par `js/qr.js` (encodeur écrit pour le projet, sans
 - dans le rayon **Contact**, un QR qui ouvre le site ;
 - sur [etiquettes.html](etiquettes.html), **une planche de toutes les étiquettes** à imprimer pour les vitrines : nom de la marque, nom de l'article, mention « Prix sur demande » et QR de la fiche. Le bouton « Imprimer la planche » ouvre l'impression du navigateur, mise en page en trois colonnes.
 
-Un QR encode une adresse, il faut donc que le site ait une adresse. Le champ `boutique.urlSite` de [js/data.js](js/data.js) porte cette adresse ; tant qu'il est vide, les QR ne peuvent pas être générés et les emplacements concernés affichent « Renseignez l'adresse du site dans le back-office (rayon Boutique) ». Après une mise en ligne, remplir `urlSite` avec l'adresse publique — par exemple `https://electro-21.vercel.app` — puis réimprimer la planche.
+Un QR encode une adresse, il faut donc que le site ait une adresse. Le champ `boutique.urlSite` de [js/data.js](js/data.js) porte cette adresse — il est rempli avec `https://electro21.vercel.app` depuis la mise en ligne. Vide, il empêcherait les QR de se dessiner et les emplacements concernés afficheraient « Renseignez l'adresse du site dans le back-office (rayon Boutique) ». Si le domaine change, reprendre `urlSite`, les balises `og:` de `index.html`, et réimprimer la planche.
 
 Le QR d'une fiche est utile **au comptoir** : le client scanne, la fiche s'ouvre sur son téléphone, et il peut la montrer au vendeur ou la garder.
 
@@ -239,38 +241,38 @@ assets/marque/          logo, bannière de couverture, photo de vitrine, image d
 assets/produits/        photos réelles de la page Facebook, avec galerie par produit
 ```
 
-## Publier
+## Publier — en ligne depuis le 26 octobre 2026
+
+**Adresse publique : https://electro21.vercel.app** · dépôt : https://github.com/fodesix-cloud/electro21
 
 Le dossier est statique : il se dépose tel quel sur n'importe quel hébergeur. Aucun secret, aucune base de données, aucun build. Deux points pour la version installable : il faut du **HTTPS** (les hébergeurs le donnent gratuitement), et `sw.js` doit rester à la racine du dossier pour couvrir tout le site.
 
-### Sur Vercel
+### Comment c'est relié aujourd'hui
 
-Deux chemins, selon ce que l'on veut garder.
-
-**Le plus simple — import depuis GitHub.** Le dépôt est public ; Vercel le relie et redéploie à chaque `git push` :
+Le projet Vercel `electro21` a été créé et déployé **depuis ce poste**, avec le CLI :
 
 ```bash
-# une seule fois, depuis le dépôt
-vercel link            # choisir « Import » le dépôt electro21
+cd /Users/fode/Projets/electro21
+vercel --prod          # publie le contenu du dossier et bascule l'alias electro21.vercel.app dessus
+```
+
+Le dossier `.vercel/` (ignoré par git) porte l'identifiant du projet et de l'organisation. Conséquence à connaître : **le dépôt GitHub n'est pas branché à Vercel**, donc un `git push` seul ne redéploie rien. Après une correction, il faut pousser *et* publier :
+
+```bash
+git add -A && git commit -m "…" && git push
 vercel --prod
 ```
 
-Sinon, depuis le site : **Add New… → Project → Import** le dépôt `electro21`, framework « Other », puis laisser *Root Directory*, *Build Command* et *Output Directory* vides — il n'y a rien à construire. Le domaine proposé, `electro21.vercel.app`, est immédiat.
+Pour que chaque `git push` publie tout seul, relier le dépôt dans l'interface : **Add New… → Project → Import** de `fodesix-cloud/electro21`, framework « Other », *Root Directory*, *Build Command* et *Output Directory* laissés vides — il n'y a rien à construire.
 
-**Sans dépôt — publication directe**, depuis le dossier :
+### Ce qui a été réglé à la mise en ligne
 
-```bash
-npm i -g vercel
-vercel login
-vercel --prod          # première fois : répondre « No » à l'interrogation sur le projet, le nom par défaut convient
-```
-
-### Après la mise en ligne
-
-Dans le back-office, rayon **Boutique**, remplir `urlSite` avec l'adresse publique (par exemple `https://electro21.vercel.app`), puis « Enregistrer js/data.js » et remplacer le fichier. Sans cette adresse, les codes QR ne peuvent pas être générés. C'est aussi le moment de passer `og:image` en URL absolue dans `index.html`, sinon Facebook ne charge pas l'image de partage depuis un chemin relatif.
+- `boutique.urlSite` vaut `https://electro21.vercel.app` : les codes QR de la fiche, du rayon Contact et de la planche d'étiquettes encodent désormais l'adresse publique. Les 26 adresses du catalogue publié ont été décodées par un lecteur réel (OpenCV).
+- `og:url` et `og:image` sont en URL absolue dans `index.html` ; sans cela, Facebook ne charge pas l'image de partage depuis un chemin relatif.
+- Si le domaine change un jour (nom propre, autre hébergeur), reprendre ces trois endroits : `boutique.urlSite`, les deux balises `og:` de `index.html`, et réimprimer la planche d'étiquettes.
 
 Le back-office et la planche d'étiquettes sont publiés avec le reste du site. `admin.html` ne protège rien : le code d'accueil est une porte locale, et le fichier `js/data.js` reste téléchargeable par qui connaît l'adresse. Si cela gêne, retirer `admin.html` et `js/admin.js` de la publication — le site s'en passe, et le back-office continue de fonctionner en local.
 
-### Mettre à jour
+### Sur les téléphones déjà installés
 
-`git push` suffit si le dépôt est relié à Vercel ; sinon `vercel --prod` depuis le dossier. Sur les téléphones déjà installés, les fichiers de la coquille sont demandés au réseau d'abord : la correction est visible à la recharge suivante, et reste lisible hors connexion ensuite.
+Les fichiers de la coquille sont demandés au réseau d'abord : la correction est visible à la recharge suivante, et reste lisible hors connexion ensuite. Rien à réinstaller.
